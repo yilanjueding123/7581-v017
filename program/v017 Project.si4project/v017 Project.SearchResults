@@ -1,0 +1,15 @@
+---- R_SYSTEM_PLLEN Matches (14 in 6 files) ----
+ap_state_firmware_upgrade in ap_state_firmware_upgrade.c (application\task_state_handling\src) : 	R_SYSTEM_PLLEN  |= 0xC00;	// 把 SPI clock 降低，讀寫比較穩
+system_clk_alter in drv_l1_ext_mode.c (driver_l1\common\src) : 	SysClk |= (R_SYSTEM_PLLEN & (~0x1F));
+system_clk_alter in drv_l1_ext_mode.c (driver_l1\common\src) : 	R_SYSTEM_PLLEN =  SysClk;
+system_clk_set in drv_l1_ext_mode.c (driver_l1\common\src) : 	       R_SYSTEM_PLLEN = 0x02;		// CPU = 48MHz
+system_clk_set in drv_l1_ext_mode.c (driver_l1\common\src) : 	       R_SYSTEM_PLLEN = 0x0e;		// CPU = 96MHz
+system_clk_set in drv_l1_ext_mode.c (driver_l1\common\src) : 	       R_SYSTEM_PLLEN = 0x1a;		// CPU = 144MHz
+drvl1_hdmi_init in drv_l1_hdmi.c (driver_l1\common\src) : 	R_SYSTEM_PLLEN		|= 0x80;		// HDMI_CLKEN
+drvl1_hdmi_exit in drv_l1_hdmi.c (driver_l1\common\src) : 	R_SYSTEM_PLLEN	&= (~0x80);	// HDMI_CLKEN
+drv_l1_init in drv_l1_init.c (driver_l1\common\src) : 	R_SYSTEM_PLLEN |= 0x80;  // 嶱 HDMI clk ( HDMI_CKEN) 
+drv_l1_init in drv_l1_init.c (driver_l1\common\src) : 	R_SYSTEM_PLLEN &= (~0x80); 
+drv_l1_sfr.h (driver_l1\inc) line 504 : #define R_SYSTEM_PLLEN              	(*((volatile INT32U *) 0xD000005C))
+system_set_pll in drv_l1_system.c (driver_l1\common\src) : 	INT32U PLL_REG = (R_SYSTEM_PLLEN & ~0x3F);
+system_set_pll in drv_l1_system.c (driver_l1\common\src) : 	R_SYSTEM_PLLEN = PLL_REG;
+system_set_pll in drv_l1_system.c (driver_l1\common\src) : 	//R_SYSTEM_PLLEN |= 0x00000100;		// Use 32K crystal as RTC clock and system 32K clock source
